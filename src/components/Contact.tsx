@@ -9,7 +9,7 @@ export default function Contact() {
         <div className="text-center mb-12" data-aos="fade-up">
           <h2 className="text-4xl text-gray-800 font-bold mb-4">Contact Us</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Have a question or feedback? We'd love to hear from you.
+            Have a question or feedback? We would love to hear from you.
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-12">
