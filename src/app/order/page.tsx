@@ -28,9 +28,17 @@ function OrderForm() {
     instructions: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(orderData);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    setOrderData({ ...orderData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -51,11 +59,10 @@ function OrderForm() {
               <label className="flex items-center space-x-2 text-gray-600">
                 <input
                   type="radio"
+                  name="orderType"
                   value="delivery"
                   checked={orderData.orderType === "delivery"}
-                  onChange={(e) =>
-                    setOrderData({ ...orderData, orderType: e.target.value })
-                  }
+                  onChange={handleInputChange}
                   className="text-gray-800 focus:ring-red-500"
                 />
                 <span>Delivery</span>
@@ -63,11 +70,10 @@ function OrderForm() {
               <label className="flex items-center space-x-2 text-gray-600">
                 <input
                   type="radio"
+                  name="orderType"
                   value="pickup"
                   checked={orderData.orderType === "pickup"}
-                  onChange={(e) =>
-                    setOrderData({ ...orderData, orderType: e.target.value })
-                  }
+                  onChange={handleInputChange}
                   className="text-gray-800 focus:ring-red-500"
                 />
                 <span>Pickup</span>
@@ -80,11 +86,10 @@ function OrderForm() {
               Name
             </label>
             <input
+              name="name"
               type="text"
               value={orderData.name}
-              onChange={(e) =>
-                setOrderData({ ...orderData, name: e.target.value })
-              }
+              onChange={handleInputChange}
               required
               className="mt-1 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
             />
@@ -95,11 +100,10 @@ function OrderForm() {
               Phone
             </label>
             <input
+              name="phone"
               type="tel"
               value={orderData.phone}
-              onChange={(e) =>
-                setOrderData({ ...orderData, phone: e.target.value })
-              }
+              onChange={handleInputChange}
               required
               className="mt-1 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
             />
@@ -111,10 +115,9 @@ function OrderForm() {
                 Delivery Address
               </label>
               <textarea
+                name="address"
                 value={orderData.address}
-                onChange={(e) =>
-                  setOrderData({ ...orderData, address: e.target.value })
-                }
+                onChange={handleInputChange}
                 required
                 className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
                 rows={3}
@@ -127,10 +130,9 @@ function OrderForm() {
               Pizza Type
             </label>
             <select
+              name="pizza"
               value={orderData.pizza}
-              onChange={(e) =>
-                setOrderData({ ...orderData, pizza: e.target.value })
-              }
+              onChange={handleInputChange}
               className="mt-1 text-gray-600 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
             >
               <option value="">Select a pizza</option>
