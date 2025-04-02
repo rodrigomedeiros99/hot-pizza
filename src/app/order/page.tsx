@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const pizzas = [
@@ -14,7 +14,7 @@ const pizzas = [
   "Four Cheese",
 ];
 
-export default function OrderPage() {
+function OrderForm() {
   const searchParams = useSearchParams();
   const selectedPizza = searchParams.get("pizza");
 
@@ -28,7 +28,7 @@ export default function OrderPage() {
     instructions: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(orderData);
   };
@@ -48,10 +48,9 @@ export default function OrderPage() {
               Order Type
             </label>
             <div className="flex space-x-4 mt-2">
-              <div className="flex items-center space-x-2">
+              <label className="flex items-center space-x-2 text-gray-600">
                 <input
                   type="radio"
-                  id="delivery"
                   value="delivery"
                   checked={orderData.orderType === "delivery"}
                   onChange={(e) =>
@@ -59,14 +58,11 @@ export default function OrderPage() {
                   }
                   className="text-gray-800 focus:ring-red-500"
                 />
-                <label className="text-gray-600" htmlFor="delivery">
-                  Delivery
-                </label>
-              </div>
-              <div className="flex items-center space-x-2">
+                <span>Delivery</span>
+              </label>
+              <label className="flex items-center space-x-2 text-gray-600">
                 <input
                   type="radio"
-                  id="pickup"
                   value="pickup"
                   checked={orderData.orderType === "pickup"}
                   onChange={(e) =>
@@ -74,86 +70,68 @@ export default function OrderPage() {
                   }
                   className="text-gray-800 focus:ring-red-500"
                 />
-                <label className="text-gray-600" htmlFor="pickup">
-                  Pickup
-                </label>
-              </div>
+                <span>Pickup</span>
+              </label>
             </div>
           </div>
 
           <div>
-            <label
-              htmlFor="name"
-              className="block text-md font-medium text-gray-700"
-            >
+            <label className="block text-md font-medium text-gray-700">
               Name
             </label>
             <input
-              id="name"
               type="text"
               value={orderData.name}
               onChange={(e) =>
                 setOrderData({ ...orderData, name: e.target.value })
               }
               required
-              className="mt-1 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50"
+              className="mt-1 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-md font-medium text-gray-700"
-            >
+            <label className="block text-md font-medium text-gray-700">
               Phone
             </label>
             <input
-              id="phone"
               type="tel"
               value={orderData.phone}
               onChange={(e) =>
                 setOrderData({ ...orderData, phone: e.target.value })
               }
               required
-              className="mt-1 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50"
+              className="mt-1 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
             />
           </div>
 
           {orderData.orderType === "delivery" && (
             <div>
-              <label
-                htmlFor="address"
-                className="block text-md font-medium text-gray-700"
-              >
+              <label className="block text-md font-medium text-gray-700">
                 Delivery Address
               </label>
               <textarea
-                id="address"
                 value={orderData.address}
                 onChange={(e) =>
                   setOrderData({ ...orderData, address: e.target.value })
                 }
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
                 rows={3}
               />
             </div>
           )}
 
           <div>
-            <label
-              htmlFor="pizza"
-              className="block text-md font-medium text-gray-700"
-            >
+            <label className="block text-md font-medium text-gray-700">
               Pizza Type
             </label>
             <select
-              id="pizza"
               value={orderData.pizza}
               onChange={(e) =>
                 setOrderData({ ...orderData, pizza: e.target.value })
               }
-              className="mt-1 text-gray-600 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50"
+              className="mt-1 text-gray-600 py-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200"
             >
               <option value="">Select a pizza</option>
               {pizzas.map((pizza) => (
@@ -162,72 +140,6 @@ export default function OrderPage() {
                 </option>
               ))}
             </select>
-          </div>
-
-          <div>
-            <label className="block text-md font-medium text-gray-700">
-              Size
-            </label>
-            <div className="flex space-x-4">
-              <div className="flex items-center text-gray-600 space-x-2">
-                <input
-                  type="radio"
-                  id="small"
-                  value="small"
-                  checked={orderData.size === "small"}
-                  onChange={(e) =>
-                    setOrderData({ ...orderData, size: e.target.value })
-                  }
-                  className="text-red-500  focus:ring-red-500"
-                />
-                <label htmlFor="small">Small</label>
-              </div>
-              <div className="flex items-center text-gray-600 space-x-2">
-                <input
-                  type="radio"
-                  id="medium"
-                  value="medium"
-                  checked={orderData.size === "medium"}
-                  onChange={(e) =>
-                    setOrderData({ ...orderData, size: e.target.value })
-                  }
-                  className="text-red-500 focus:ring-red-500"
-                />
-                <label htmlFor="medium">Medium</label>
-              </div>
-              <div className="flex text-gray-600 items-center space-x-2">
-                <input
-                  type="radio"
-                  id="large"
-                  value="large"
-                  checked={orderData.size === "large"}
-                  onChange={(e) =>
-                    setOrderData({ ...orderData, size: e.target.value })
-                  }
-                  className="text-red-500 focus:ring-red-500"
-                />
-                <label htmlFor="large">Large</label>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="instructions"
-              className="block text-md font-medium text-gray-700"
-            >
-              Special Instructions
-            </label>
-            <textarea
-              id="instructions"
-              value={orderData.instructions}
-              onChange={(e) =>
-                setOrderData({ ...orderData, instructions: e.target.value })
-              }
-              placeholder="Any special requests or instructions?"
-              className="mt-1 block w-full text-gray-600  rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50"
-              rows={3}
-            />
           </div>
 
           <button
@@ -239,5 +151,13 @@ export default function OrderPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function OrderPage() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <OrderForm />
+    </Suspense>
   );
 }
