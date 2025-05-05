@@ -24,7 +24,7 @@ export default function Hero() {
         <h1 className="text-5xl md:text-7xl font-bold mb-6">Hot Pizza</h1>
         <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
           Experience the authentic taste of Italy with our handcrafted pizzas
-          made from the finest ingredients.
+          made from the finest and best ingredients.
         </p>
         <Link href="/order">
           <button className="px-8 py-4 bg-red-500 text-white text-lg cursor-pointer rounded-md hover:bg-red-600 transition-colors">
